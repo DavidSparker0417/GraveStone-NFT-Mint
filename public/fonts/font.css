@@ -1,0 +1,16 @@
+@font-face {
+  font-family: 'Back-Issues-BB-Bold-Italic';
+  src:url('Back-Issues-BB-Bold-Italic.ttf.woff') format('woff'),
+      url('Back-Issues-BB-Bold-Italic.ttf.svg#Back-Issues-BB-Bold-Italic') format('svg'),
+      url('Back-Issues-BB-Bold-Italic.ttf.eot'),
+      url('Back-Issues-BB-Bold-Italic.ttf.eot?#iefix') format('embedded-opentype'); 
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'chalkboard';
+  src:url('chalkboard.ttf') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
