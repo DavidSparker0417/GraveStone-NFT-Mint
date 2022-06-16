@@ -12,6 +12,7 @@ function LinkText({ link, children }) {
       sx={{
         textDecoration: "none",
       }}
+      mb={1}
     >
       {children}
     </Typography>
@@ -25,6 +26,12 @@ function Splitter({ children }) {
       mx={1} 
       fontFamily="inherit" 
       fontWeight="bold"
+      sx={{
+        display: {
+          xs: "none",
+          lg: "inline"
+        }
+      }}
     >
       {children}
     </Typography>

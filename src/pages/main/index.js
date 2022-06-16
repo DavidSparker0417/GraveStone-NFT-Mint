@@ -39,11 +39,13 @@ export default function Main() {
     init: {
       background: `images/${imgDir}/background.png`,
       buttonImage: `url(/images/${imgDir}/connect-wallet.png)`,
+      buttonHoverImage: `url(/images/${imgDir}/connect-wallet-hover.png)`,
       buttonHandler: handleConnectWallet,
     },
     active: {
       background: `images/${imgDir}/background-active.png`,
       buttonImage: `url(/images/${imgDir}/mint.png)`,
+      buttonHoverImage: `url(/images/${imgDir}/mint-hover.png)`,
       buttonHandler: handleMint,
     },
   };
@@ -72,7 +74,19 @@ export default function Main() {
             top={0}
           >
             <Grid item xs={4} height="100%">
-              <SocialBox p="16px" splitter="-" />
+              <SocialBox p="16px" 
+                splitter= "-"
+                sx={{
+                  display: {
+                    xs: "flex",
+                    lg: "block"
+                  },
+                  flexDirection: {
+                    xs: "column",
+                    lg: "none"
+                  },
+                }} 
+              />
             </Grid>
             <Grid
               item
@@ -84,6 +98,7 @@ export default function Main() {
             >
               <StoneButton
                 image={currentUI.buttonImage}
+                hoverImage={currentUI.buttonHoverImage}
                 handleClick={currentUI.buttonHandler}
               />
             </Grid>
@@ -122,6 +137,7 @@ export default function Main() {
               <Grid item xs={6} container alignItems="center">
                 <StoneButton
                   image={currentUI.buttonImage}
+                  hoverImage={currentUI.buttonHoverImage}
                   handleClick={currentUI.buttonHandler}
                   width="50%"
                   height="15%"

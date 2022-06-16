@@ -24,9 +24,22 @@ export const WalletProvider = ({ children }) => {
   const [provider, setProvider] = useState(TARGET_NET.rpc);
   const [account, setAccount] = useState();
 
+  function checkIfValidChain(chainId) {
+    const targetChain = "0x" + TARGET_NET.chainId.toString(16);
+    console.log("checkIfValidChain :: ", chainId, targetChain);
+    if (chainId === targetChain) {
+      toast.success("Successfully connected!");
+      return true;
+    } else {
+      toast.error(`Wrong network! Please turn into ${TARGET_NET.chainName} network`);
+      return false;
+    }
+  }
+
   const isValidNet = useCallback(() => {
     if (!provider || typeof provider === "string")
       return true;
+    return checkIfValidChain(provider.chainId);
     const targetChain = "0x" + TARGET_NET.chainId.toString(16);
     return provider.chainId === targetChain;
   }, [provider]);
@@ -35,12 +48,15 @@ export const WalletProvider = ({ children }) => {
     try {
       // connect
       const _provider = await web3Modal.connect();
-      console.log("[WALLET] Modal connected ", _provider);
-      setProvider(_provider);
-      // get account
-      const account = await dsWalletAccountFromProvider(_provider);
-      setAccount(account);
-
+      console.log("[WALLET] Modal connected ", _provider, _provider.chainId);
+      if (checkIfValidChain(_provider.chainId))
+      {
+        setProvider(_provider);
+        // get account
+        const account = await dsWalletAccountFromProvider(_provider);
+        setAccount(account);
+      }
+      
       // events
       _provider.on("connect", (info) => {
         console.log("[WALLET] connected! ", info);
@@ -49,13 +65,18 @@ export const WalletProvider = ({ children }) => {
 
       _provider.on("chainChanged", (chainId) => {
         console.log("[WALLET] Chain Changed! ", chainId, _provider.chainId, provider);
-        setProvider(_provider);
-        const targetChain = "0x" + TARGET_NET.chainId.toString(16);
-        if (chainId === targetChain) {
-          toast.success("Successfully connected!");
-        } else {
-          toast.error(`Wrong network! Please turn into ${TARGET_NET.chainName} network`);
+        if (!checkIfValidChain(chainId))
+        {
+          setAccount(null);
+          return;
         }
+        setProvider(_provider);
+        // const targetChain = "0x" + TARGET_NET.chainId.toString(16);
+        // if (chainId === targetChain) {
+        //   toast.success("Successfully connected!");
+        // } else {
+        //   toast.error(`Wrong network! Please turn into ${TARGET_NET.chainName} network`);
+        // }
       });
 
       _provider.on("accountsChanged", (accounts) => {
