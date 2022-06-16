@@ -123,4 +123,4 @@ export const ChainNets = {
   },
 }
 
-export const TARGET_NET = ChainNets.ether;
+export const TARGET_NET = ChainNets.mumbai;

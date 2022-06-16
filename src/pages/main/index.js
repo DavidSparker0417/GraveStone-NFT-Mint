@@ -1,3 +1,4 @@
+import {useSelector} from "react-redux"
 import { Box, Button, Container, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import MuiLink from "@mui/material/Link";
@@ -8,6 +9,10 @@ import MintPanel from "./sections/MintPanel";
 import { BrowserView, MobileView, isMobile } from "react-device-detect";
 import ImageBox from "../../components/ImageBox";
 import MobileMintPanel from "./sections/MobileMintPanel";
+import { gstnMintNft } from "../../contracts/nft";
+import { getGeneral, getOperate } from "../../redux/nft";
+import SaleStatus from "./sections/mobile/SaleStatus";
+import SocialBox from "../../components/SocialBox";
 
 function BackGround({ image, ...rest }) {
   return (
@@ -25,55 +30,11 @@ function BackGround({ image, ...rest }) {
   );
 }
 
-function SocialLink({ splitter, ...rest }) {
-  return (
-    <Box sx={{ fontFamily: "chalkboard" }} {...rest}>
-      <Typography
-        component={MuiLink}
-        fontFamily="inherit"
-        fontWeight="bold"
-        color="black"
-        sx={{
-          textDecoration: "none"
-        }}
-      >
-        Opensea
-      </Typography>
-      {
-        splitter && 
-        <Typography component="span" mx={1} fontFamily="inherit" fontWeight="bold">
-          {splitter}
-        </Typography>
-      }
-      <Typography
-        component={MuiLink}
-        fontFamily="inherit"
-        fontWeight="bold"
-        color="black"
-        sx={{
-          textDecoration: "none"
-        }}
-      >
-        Twitter
-      </Typography>
-    </Box>
-  );
-}
-
-function MintInfo() {
-  return (
-    <Box height="fit-content" pl="25%" pb="30%">
-      <GSTypography>WL MINT: 5PM (PST)</GSTypography>
-      <GSTypography>1 per wallet</GSTypography>
-      <GSTypography>PUBLIC SALE: 6PM (PST)</GSTypography>
-      <GSTypography>Max 2 per wallet</GSTypography>
-    </Box>
-  );
-}
-
 const imgDir = isMobile ? "mobile" : "desktop";
 export default function Main() {
+  const nftState = useSelector(getGeneral);
   const wallet = useWallet();
+  const operateState = useSelector(getOperate);
   let ui = {
     init: {
       background: `images/${imgDir}/background.png`,
@@ -94,7 +55,7 @@ export default function Main() {
   }
 
   function handleMint() {
-    console.log("handleMint");
+    gstnMintNft(wallet.provider, wallet.account, nftState.mintPrice, operateState.count);
   }
 
   return (
@@ -111,7 +72,7 @@ export default function Main() {
             top={0}
           >
             <Grid item xs={4} height="100%">
-              <SocialLink p="16px" splitter="-" />
+              <SocialBox p="16px" splitter="-" />
             </Grid>
             <Grid
               item
@@ -139,6 +100,7 @@ export default function Main() {
           </Grid>
         </Box>
       </BrowserView>
+
       <MobileView style={{ height: "100%" }}>
         <Box display="flex" position="relative" height="100%">
           <BackGround image={currentUI.background} height="100%" />
@@ -151,17 +113,11 @@ export default function Main() {
             top={0}
           >
             <Grid item height="25%" width="100%" container justifyContent="center">
-              {wallet.account && (
-                <ImageBox
-                  image="url(images/mobile/public-sale-live.png)"
-                  width="80%"
-                  height="60%"
-                />
-              )}
+              <SaleStatus />
             </Grid>
             <Grid item height="45%" width="100%" container>
               <Grid item xs={6} pt={wallet.account ? "0" : "32px"}>
-                <SocialLink display="flex" flexDirection="column" pl={1} />
+                <SocialBox display="flex" flexDirection="column" pl={1} />
               </Grid>
               <Grid item xs={6} container alignItems="center">
                 <StoneButton

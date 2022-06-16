@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect } from "react";
-import { degenGetStatistics } from "../contracts/nft";
+import { gstnGetStatistics } from "../contracts/nft";
 import { RefreshGeneral } from "../redux/nft";
 import { useWallet } from "./wallet";
 import { useDispatch } from "react-redux";
@@ -15,8 +15,8 @@ export function GlobalProvider({ children }) {
     const ac = new AbortController();
 
     async function fetchNftInfo () {
-      const degenInfo = await degenGetStatistics(wallet.provider);
-      console.log("[DAVID] degenInfo = ", degenInfo);
+      const degenInfo = await gstnGetStatistics(wallet.provider);
+      // console.log("[DAVID] degenInfo = ", degenInfo);
       dispatch(RefreshGeneral(degenInfo));
     }
 

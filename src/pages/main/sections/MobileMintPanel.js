@@ -1,7 +1,11 @@
 import { Grid, Box, Typography, styled, Button } from "@mui/material";
-import { Children, useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import GSTypography from "../../../components/GSTypography";
 import ImageBox from "../../../components/ImageBox";
+import { useWallet } from "../../../context/wallet";
+import { gstnMintNft } from "../../../contracts/nft";
+import { getGeneral, UpdateMintCount } from "../../../redux/nft";
 
 const MintText = styled(Typography)(() => {
   return {
@@ -30,8 +34,13 @@ function MintControlButton({ children, handleClick, ...rest }) {
   );
 }
 
-function MintController() {
+function MintController({setMintCount}) {
+  const dispatch = useDispatch();
   const [count, setCount] = useState(1);
+  useEffect(() => {
+    setMintCount && setMintCount(count);
+    dispatch(UpdateMintCount(count));
+  }, [count])
   function decreaseCount() {
     if (count <= 1) return;
     setCount(count - 1);
@@ -44,7 +53,6 @@ function MintController() {
       <Box textAlign="center">
         <Grid
           container
-          mb="10%"
           justifyContent="center"
           fontFamily="Back-Issues-BB-Bold-Italic"
         >
@@ -60,22 +68,29 @@ function MintController() {
 }
 
 export default function MobileMintPanel({ ...rest }) {
+  const nftState = useSelector(getGeneral);
+  const wallet = useWallet();
+  const [count, setCount] = useState();
+
+  function handleMint() {
+    gstnMintNft(wallet.provider, wallet.account, nftState.mintPrice, count);
+  }
   return (
     <>
-      <Grid height="30%" pt={2}>
-        <MintController />
+      <Grid height="35%" container alignItems="center" justifyContent="center">
+        <MintController setMintCount={setCount}/>
       </Grid>
-      <Grid height="30%" container justifyContent="center" alignContent="end">
-        <MintControlButton>MINT NOW</MintControlButton>
+      <Grid height="25%" container justifyContent="center" alignContent="end">
+        <MintControlButton handleClick={handleMint}>MINT NOW</MintControlButton>
       </Grid>
-      <Grid height="30%" container alignItems="center" justifyContent="center">
+      <Grid height="40%" container alignItems="center" justifyContent="center">
         <GSTypography 
           textAlign="center" 
           fontSize="4vw"
           color="white"
         >
           Supply Remaining <br />
-          3333 / 3333
+          {nftState.totalSupply} / {nftState.maxSupply}
         </GSTypography>
       </Grid>
     </>

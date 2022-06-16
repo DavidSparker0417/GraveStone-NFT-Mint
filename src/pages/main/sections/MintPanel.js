@@ -1,7 +1,14 @@
 import { Grid, Box, Typography, styled, Button } from "@mui/material";
 import { Children, useState } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import GSTypography from "../../../components/GSTypography";
 import ImageBox from "../../../components/ImageBox";
+import { useUI } from "../../../context/ui";
+import { useWallet } from "../../../context/wallet";
+import { gstnMintNft } from "../../../contracts/nft";
+import { dsErrMsgGet } from "../../../ds-lib/ds-web3";
+import { getGeneral } from "../../../redux/nft";
 
 const MintText = styled(Typography)(() => {
   return {
@@ -31,6 +38,10 @@ function MintControlButton({children, handleClick, ...rest}) {
 
 function MintController() {
   const [count, setCount] = useState(1);
+  const { setLoading } = useUI();
+  const wallet = useWallet();
+  const { mintPrice, maxMintPerWallet } = useSelector(getGeneral);
+
   function decreaseCount() {
     if(count <= 1)
       return;
@@ -38,6 +49,17 @@ function MintController() {
   }
   function increaseCount() {
     setCount(count + 1);
+  }
+
+  async function handleMint() {
+    try{
+      setLoading(true, "Minting...");
+      await gstnMintNft(wallet.provider, wallet.account, mintPrice, count);
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      toast.error(dsErrMsgGet(e.message));
+    }
   }
   return (
     <>
@@ -58,18 +80,22 @@ function MintController() {
             +
           </MintControlButton>
         </Grid>
-        <MintControlButton>MINT NOW</MintControlButton>
+        <MintControlButton onClick={handleMint}>
+          MINT NOW
+        </MintControlButton>
       </Box>
     </>
   );
 }
 
 export default function MintPanel({ ...rest }) {
+  const nftState = useSelector(getGeneral);
+  const stageImage = nftState?.round === 0 ? "wl-sale-live.png" : "public-sale-live.png";
   return (
     <>
       <Grid item container width="100%" height="29%" justifyContent="center">
         <ImageBox
-          image="url(images/desktop/public-sale-live.png)"
+          image={`url(images/desktop/${stageImage})`}
           width="60%"
           height="90%"
         />
@@ -84,7 +110,7 @@ export default function MintPanel({ ...rest }) {
       >
         <GSTypography textAlign="center" fontSize="1.5vw">
           Supply Remaining <br />
-          3333 / 3333
+          {nftState.totalSupply} / {nftState.maxSupply}
         </GSTypography>
       </Grid>
       <Grid item height="20%" />

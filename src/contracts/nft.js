@@ -3,13 +3,13 @@ import { dsWeb3GetContract, dsWeb3SendTransaction } from "../ds-lib/ds-web3";
 import degenAbi from "./abi/DEGENsRock.json";
 import BigNumber from "bignumber.js";
 
-function degenGetContract(provider) {
+function gstnGetContract(provider) {
   const contract = dsWeb3GetContract(provider, TARGET_NET.degenNft, degenAbi.abi);
   return contract;
 }
-export async function degenGetStatistics(provider) {
+export async function gstnGetStatistics(provider) {
   let degenInfo = {};
-  const contract = degenGetContract(provider);
+  const contract = gstnGetContract(provider);
   degenInfo.maxSupply = await contract.methods.maxSupply().call();
   degenInfo.totalSupply = await contract.methods.totalSupply().call();
   degenInfo.mintPrice = await contract.methods.getCost().call();
@@ -32,13 +32,13 @@ export async function degenGetStatistics(provider) {
   phase2.active = !isRoundOne;
 
   degenInfo.phase2 = phase2;  
-  console.log("[DEGEN] get statistics :: ", degenInfo);
+  // console.log("[GSTN] get statistics :: ", degenInfo);
   return degenInfo;
 }
 
-export async function degenMintNft(provider, account, price, amount) {
-  const contract = degenGetContract(provider);
-  console.log(`[DEGEN] minting :: price = ${price}, amount=${amount}`);
+export async function gstnMintNft(provider, account, price, amount) {
+  const contract = gstnGetContract(provider);
+  console.log(`[GSTN] minting :: price = ${price}, amount=${amount}`);
   const bnPrice = new BigNumber(price);
   const payment = bnPrice.multipliedBy(amount);
   const transaction = contract.methods.mint(amount);

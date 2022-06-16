@@ -19,6 +19,9 @@ const initialState = {
       active: false,
     },
     state: "initial"
+  },
+  operate : {
+    count: 1,
   }
 };
 
@@ -28,10 +31,16 @@ const nftSlice = createSlice({
   reducers: {
     RefreshGeneral (state, action) {
       state.general = action.payload;
+    },
+
+    UpdateMintCount (state, action) {
+      console.log("[REDUX] Updating mint count. ", action.payload);
+      state.operate.count = action.payload;
     }
   }
 });
 
-export const {RefreshGeneral} = nftSlice.actions;
+export const {RefreshGeneral, UpdateMintCount} = nftSlice.actions;
 export const getGeneral = (state) => state.nft.general;
+export const getOperate = (state) => state.nft.operate;
 export default nftSlice.reducer;

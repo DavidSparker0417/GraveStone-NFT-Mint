@@ -10,6 +10,9 @@ export default function StoneButton({image, handleClick, ...rest}) {
       mt="20%"
       onClick= {handleClick}
       image={image}
+      sx={{
+        cursor: "pointer"
+      }}
       {...rest}
     />
   );
