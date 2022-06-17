@@ -6,6 +6,9 @@ const initialState = {
     totalSupply: 0,
     mintPrice: 0,
     round : 0,
+    maxMintPerWallet: 0,
+    isWhitelist: false,
+    isAllowedToMint: false,
     phase1 : {
       cost: "0",
       maxPerWallet: 0,
@@ -18,7 +21,6 @@ const initialState = {
       maxPerTrx: 0,
       active: false,
     },
-    state: "initial"
   },
   operate : {
     count: 1,

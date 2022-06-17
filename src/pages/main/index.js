@@ -13,6 +13,9 @@ import { gstnMintNft } from "../../contracts/nft";
 import { getGeneral, getOperate } from "../../redux/nft";
 import SaleStatus from "./sections/mobile/SaleStatus";
 import SocialBox from "../../components/SocialBox";
+import { useUI } from "../../context/ui";
+import { toast } from "react-toastify";
+import { dsErrMsgGet } from "../../ds-lib/ds-web3";
 
 function BackGround({ image, ...rest }) {
   return (
@@ -34,6 +37,7 @@ const imgDir = isMobile ? "mobile" : "desktop";
 export default function Main() {
   const nftState = useSelector(getGeneral);
   const wallet = useWallet();
+  const {setLoading} = useUI();
   const operateState = useSelector(getOperate);
   let ui = {
     init: {
@@ -56,8 +60,15 @@ export default function Main() {
     wallet.connect();
   }
 
-  function handleMint() {
-    gstnMintNft(wallet.provider, wallet.account, nftState.mintPrice, operateState.count);
+  async function handleMint() {
+    try{
+      setLoading(true, "Minting...");
+      await gstnMintNft(wallet.provider, wallet.account, nftState.mintPrice, operateState.count);
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      toast.error(dsErrMsgGet(e.message));
+    }
   }
 
   return (

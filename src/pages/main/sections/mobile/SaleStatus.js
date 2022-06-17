@@ -6,7 +6,7 @@ import { getGeneral } from "../../../../redux/nft";
 export default function SaleStatus() {
   const wallet = useWallet();
   const nftState = useSelector(getGeneral);
-  const imgName = nftState.round === 0 ? "wl-sale-live.png" : "public-sale-live.png";
+  const imgName = nftState.isWhitelist ? "wl-sale-live.png" : "public-sale-live.png";
   return wallet.account ? (
     <ImageBox
       image={`url(images/mobile/${imgName})`}

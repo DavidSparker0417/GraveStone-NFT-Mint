@@ -15,7 +15,7 @@ export const ChainNets = {
     weth        : "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     stablecoin  : "0xdAC17F958D2ee523a2206206994597C13D831ec7",
     treasury    : "0x7580C35f3FC73BE051f39ECdCD7f94fF53725960",
-    degenNft    : "0x770056846d56ab7f533401f6fade016c32ce6e7c",
+    gravestone  : "0x770056846d56ab7f533401f6fade016c32ce6e7c",
   },
   ropsten : {
     alias     : "ropsten",
@@ -48,7 +48,7 @@ export const ChainNets = {
     weth        : "0xc778417e063141139fce010982780140aa0cd5ab",
     stablecoin  : "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
     treasury    : "0x85048aae2FCc6877cA379e2dfDD61ea208Fa076C",
-    degenNft    : "0xe025dbeF5e784e674BfB2D5812276c341fB59A03",
+    gravestone    : "0x7e47Fd7190C6BF2c181BDcEf4E0CA0a6fE8849E3",
   },
   bsc : {
     alias     : "Binance",
@@ -115,7 +115,7 @@ export const ChainNets = {
       decimals: 18
     },
     blockExplorerUrl : "https://mumbai.polygonscan.com",
-    degenNft: "0xAF0852413d2CdAfa7f9BeF6A661604BBC79E908C",
+    gravestone : "0xAF0852413d2CdAfa7f9BeF6A661604BBC79E908C",
   },
   local : {
     chainId : 539,
@@ -123,4 +123,4 @@ export const ChainNets = {
   },
 }
 
-export const TARGET_NET = ChainNets.mumbai;
+export const TARGET_NET = ChainNets.rinkeby;

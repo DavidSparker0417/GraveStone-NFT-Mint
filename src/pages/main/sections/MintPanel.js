@@ -43,12 +43,14 @@ function MintController() {
   const { mintPrice, maxMintPerWallet } = useSelector(getGeneral);
 
   function decreaseCount() {
-    if(count <= 1)
-      return;
-    setCount(count-1);
+    const newCount = count - 1;
+    if (newCount <= 0) return;
+    setCount(newCount);
   }
   function increaseCount() {
-    setCount(count + 1);
+    const newCount = count + 1;
+    if (newCount <= maxMintPerWallet)
+      setCount(newCount);
   }
 
   async function handleMint() {
@@ -90,7 +92,7 @@ function MintController() {
 
 export default function MintPanel({ ...rest }) {
   const nftState = useSelector(getGeneral);
-  const stageImage = nftState?.round === 0 ? "wl-sale-live.png" : "public-sale-live.png";
+  const stageImage = nftState?.isWhitelist ? "wl-sale-live.png" : "public-sale-live.png";
   return (
     <>
       <Grid item container width="100%" height="29%" justifyContent="center">

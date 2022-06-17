@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { gstnGetStatistics } from "../contracts/nft";
 import { RefreshGeneral } from "../redux/nft";
 import { useWallet } from "./wallet";
@@ -8,6 +8,7 @@ export const GlobalContext = createContext();
 export function GlobalProvider({ children }) {
   const wallet = useWallet();
   const dispatch = useDispatch();
+  const [gstn, setGstn] = useState();
 
   // timer for refreshing nft info
   useEffect(() => {
@@ -15,9 +16,10 @@ export function GlobalProvider({ children }) {
     const ac = new AbortController();
 
     async function fetchNftInfo () {
-      const degenInfo = await gstnGetStatistics(wallet.provider);
-      // console.log("[DAVID] degenInfo = ", degenInfo);
-      dispatch(RefreshGeneral(degenInfo));
+      const gstnInfo = await gstnGetStatistics(wallet.provider, wallet.account);
+      // console.log("[DAVID] gstnInfo = ", gstnInfo);
+      setGstn(gstnInfo);
+      dispatch(RefreshGeneral(gstnInfo));
     }
 
     const callRefreshNftInfo = async () => {
@@ -35,6 +37,7 @@ export function GlobalProvider({ children }) {
   return (
     <GlobalContext.Provider value={{}}>
       {children}
+      {/* <div style={{display:"none"}}>{gstn?.maxSupply}</div> */}
     </GlobalContext.Provider>
   );
 }
