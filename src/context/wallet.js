@@ -18,6 +18,7 @@ const providerOptions = {
 
 const web3Modal = new Web3Modal({
   providerOptions,
+  theme: "dark",
 });
 
 export const WalletProvider = ({ children }) => {
@@ -40,8 +41,6 @@ export const WalletProvider = ({ children }) => {
     if (!provider || typeof provider === "string")
       return true;
     return checkIfValidChain(provider.chainId);
-    const targetChain = "0x" + TARGET_NET.chainId.toString(16);
-    return provider.chainId === targetChain;
   }, [provider]);
 
   async function connect() {
@@ -71,12 +70,6 @@ export const WalletProvider = ({ children }) => {
           return;
         }
         setProvider(_provider);
-        // const targetChain = "0x" + TARGET_NET.chainId.toString(16);
-        // if (chainId === targetChain) {
-        //   toast.success("Successfully connected!");
-        // } else {
-        //   toast.error(`Wrong network! Please turn into ${TARGET_NET.chainName} network`);
-        // }
       });
 
       _provider.on("accountsChanged", (accounts) => {

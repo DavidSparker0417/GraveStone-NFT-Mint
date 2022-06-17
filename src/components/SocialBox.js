@@ -6,7 +6,7 @@ function LinkText({ link, children }) {
     <Typography
       component={MuiLink}
       href={link}
-      fontFamily="inherit"
+      fontFamily="chalkboard"
       fontWeight="bold"
       color="black"
       sx={{
@@ -40,7 +40,7 @@ function Splitter({ children }) {
 
 export default function SocialBox({ splitter, ...rest }) {
   return (
-    <Box sx={{ fontFamily: "chalkboard" }} {...rest}>
+    <Box {...rest}>
       <LinkText link="#">Opensea</LinkText>
       {splitter && <Splitter>{splitter}</Splitter>}
       <LinkText link="#">Twitter</LinkText>

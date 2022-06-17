@@ -31,11 +31,12 @@ export async function gstnGetStatistics(provider, account) {
   phase2.active = !isRoundOne;
 
   gstnInfo.phase2 = phase2;  
-  console.log("[GSTN] get statistics :: ", provider, gstnInfo);
+  // console.log("[GSTN] get statistics :: ", provider, gstnInfo);
   return gstnInfo;
 }
 
 export async function gstnMintNft(provider, account, price, amount) {
+  console.log(`[GSTN] minting :: price = ${price}, amount=${amount}`);
   const contract = gstnGetContract(provider);
   const isPause = await contract.methods.paused().call();
   if (!isPause)
@@ -43,7 +44,6 @@ export async function gstnMintNft(provider, account, price, amount) {
   const isAllowedToMint = await contract.methods.whitelisted(account).call();
   if (!isAllowedToMint)
     throw new Error("Not allowed to mint!");
-  console.log(`[GSTN] minting :: price = ${price}, amount=${amount}`);
   const bnPrice = new BigNumber(price);
   const payment = bnPrice.multipliedBy(amount);
   const transaction = contract.methods.mint(amount);

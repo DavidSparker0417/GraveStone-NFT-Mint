@@ -1,14 +1,10 @@
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Grid, Box, Typography, styled, Button } from "@mui/material";
-import { Children, useState } from "react";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import GSTypography from "../../../components/GSTypography";
 import ImageBox from "../../../components/ImageBox";
-import { useUI } from "../../../context/ui";
-import { useWallet } from "../../../context/wallet";
-import { gstnMintNft } from "../../../contracts/nft";
-import { dsErrMsgGet } from "../../../ds-lib/ds-web3";
-import { getGeneral } from "../../../redux/nft";
+import { getGeneral, UpdateMintCount } from "../../../redux/nft";
 
 const MintText = styled(Typography)(() => {
   return {
@@ -36,11 +32,14 @@ function MintControlButton({children, handleClick, ...rest}) {
   )
 }
 
-function MintController() {
+function MintController({handleMint}) {
   const [count, setCount] = useState(1);
-  const { setLoading } = useUI();
-  const wallet = useWallet();
-  const { mintPrice, maxMintPerWallet } = useSelector(getGeneral);
+  const { maxMintPerWallet } = useSelector(getGeneral);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(UpdateMintCount(count));
+  }, [count]);
 
   function decreaseCount() {
     const newCount = count - 1;
@@ -53,16 +52,6 @@ function MintController() {
       setCount(newCount);
   }
 
-  async function handleMint() {
-    try{
-      setLoading(true, "Minting...");
-      await gstnMintNft(wallet.provider, wallet.account, mintPrice, count);
-      setLoading(false);
-    } catch (e) {
-      setLoading(false);
-      toast.error(dsErrMsgGet(e.message));
-    }
-  }
   return (
     <>
       <Box ml="25%" textAlign="center">
@@ -90,7 +79,7 @@ function MintController() {
   );
 }
 
-export default function MintPanel({ ...rest }) {
+export default function MintPanel({ handleMint, ...rest }) {
   const nftState = useSelector(getGeneral);
   const stageImage = nftState?.isWhitelist ? "wl-sale-live.png" : "public-sale-live.png";
   return (
@@ -117,7 +106,7 @@ export default function MintPanel({ ...rest }) {
       </Grid>
       <Grid item height="20%" />
       <Grid item height="28%" container flexDirection="column" justifyContent="center">
-        <MintController />
+        <MintController handleMint = {handleMint}/>
       </Grid>
     </>
   );

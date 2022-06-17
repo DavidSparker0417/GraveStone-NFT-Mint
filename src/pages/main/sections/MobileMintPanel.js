@@ -34,12 +34,11 @@ function MintControlButton({ children, handleClick, ...rest }) {
   );
 }
 
-function MintController({setMintCount}) {
+function MintController() {
   const { maxMintPerWallet } = useSelector(getGeneral);
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   useEffect(() => {
-    setMintCount && setMintCount(count);
     dispatch(UpdateMintCount(count));
   }, [count])
   function decreaseCount() {
@@ -71,18 +70,14 @@ function MintController({setMintCount}) {
   );
 }
 
-export default function MobileMintPanel({ ...rest }) {
+export default function MobileMintPanel({ handleMint, ...rest }) {
   const nftState = useSelector(getGeneral);
   const wallet = useWallet();
-  const [count, setCount] = useState();
 
-  function handleMint() {
-    gstnMintNft(wallet.provider, wallet.account, nftState.mintPrice, count);
-  }
   return (
     <>
       <Grid height="35%" container alignItems="center" justifyContent="center">
-        <MintController setMintCount={setCount}/>
+        <MintController />
       </Grid>
       <Grid height="25%" container justifyContent="center" alignContent="end">
         <MintControlButton handleClick={handleMint}>MINT NOW</MintControlButton>

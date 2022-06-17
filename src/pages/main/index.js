@@ -121,7 +121,7 @@ export default function Main() {
               flexDirection="column"
               alignContent="center"
             >
-              {wallet.account && <MintPanel />}
+              {wallet.account && <MintPanel handleMint={handleMint}/>}
             </Grid>
           </Grid>
         </Box>
@@ -159,7 +159,7 @@ export default function Main() {
             </Grid>
             <Grid item height="30%" width="100%">
               {
-                wallet.account && <MobileMintPanel />
+                wallet.account && <MobileMintPanel handleMint={handleMint}/>
               }
             </Grid>
           </Grid>
