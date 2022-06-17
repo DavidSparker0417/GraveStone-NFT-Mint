@@ -39,10 +39,11 @@ export async function gstnMintNft(provider, account, price, amount) {
   console.log(`[GSTN] minting :: price = ${price}, amount=${amount}`);
   const contract = gstnGetContract(provider);
   const isPause = await contract.methods.paused().call();
-  if (!isPause)
+  if (isPause)
     throw new Error("Not available to mint for now!");
+  const isWlState = await contract.methods.isWhitelistOnly().call();
   const isAllowedToMint = await contract.methods.whitelisted(account).call();
-  if (!isAllowedToMint)
+  if (isWlState && !isAllowedToMint)
     throw new Error("Not allowed to mint!");
   const bnPrice = new BigNumber(price);
   const payment = bnPrice.multipliedBy(amount);
