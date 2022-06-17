@@ -35,7 +35,7 @@ function MintControlButton({ children, handleClick, ...rest }) {
 }
 
 function MintController() {
-  const { maxMintPerWallet } = useSelector(getGeneral);
+  const { maxMintPerOneTime } = useSelector(getGeneral);
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   useEffect(() => {
@@ -48,7 +48,7 @@ function MintController() {
   }
   function increaseCount() {
     const newCount = count + 1;
-    if (newCount <= maxMintPerWallet)
+    if (newCount <= maxMintPerOneTime)
       setCount(newCount);
   }
   return (
