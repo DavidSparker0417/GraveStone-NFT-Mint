@@ -88,7 +88,7 @@ export default function MobileMintPanel({ handleMint, ...rest }) {
           fontSize="4vw"
           color="white"
         >
-          Supply Remaining <br />
+          Minted / Total <br />
           {nftState.totalSupply} / {nftState.maxSupply}
         </GSTypography>
       </Grid>

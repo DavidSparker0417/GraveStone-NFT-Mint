@@ -100,7 +100,7 @@ export default function MintPanel({ handleMint, ...rest }) {
         pl="10%"
       >
         <GSTypography textAlign="center" fontSize="1.5vw">
-          Supply Remaining <br />
+          Minted / Total <br />
           {nftState.totalSupply} / {nftState.maxSupply}
         </GSTypography>
       </Grid>
