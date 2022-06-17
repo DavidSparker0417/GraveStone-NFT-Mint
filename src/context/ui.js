@@ -18,7 +18,7 @@ export default function UIProvider({children}) {
       {children}
       <DGBackdrop open={loading} description={loadingDesc}/>
       <ToastContainer
-        position="bottom-right"
+        position="bottom-left"
         theme='dark'
         style = {{
           width: "fit-content",
