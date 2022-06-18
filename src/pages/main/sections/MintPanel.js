@@ -57,6 +57,7 @@ function MintController({handleMint}) {
   function increaseCount() {
     const availableToMint = parseInt(maxMintPerWallet) > parseInt(balance) ? parseInt(maxMintPerWallet) - parseInt(balance) : 0;
     const limit = Math.min(availableToMint, maxMintPerOneTime);
+    // console.log(availableToMint, maxMintPerOneTime, availableToMint, maxMintPerWallet, balance);
     const newCount = count + 1;
     if (newCount <= limit)
       setCount(newCount);

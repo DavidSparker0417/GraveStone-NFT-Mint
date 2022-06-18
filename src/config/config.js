@@ -48,7 +48,7 @@ export const ChainNets = {
     weth        : "0xc778417e063141139fce010982780140aa0cd5ab",
     stablecoin  : "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
     treasury    : "0x85048aae2FCc6877cA379e2dfDD61ea208Fa076C",
-    gravestone    : "0x7e47Fd7190C6BF2c181BDcEf4E0CA0a6fE8849E3",
+    gravestone    : "0x501097cbfAF49f8bB34c6eA1b1073A322dfA8255",
   },
   bsc : {
     alias     : "Binance",
