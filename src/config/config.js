@@ -15,7 +15,7 @@ export const ChainNets = {
     weth        : "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     stablecoin  : "0xdAC17F958D2ee523a2206206994597C13D831ec7",
     treasury    : "0x7580C35f3FC73BE051f39ECdCD7f94fF53725960",
-    gravestone  : "0x5Fc2D8f254E8efeEdf72688fD7A9c0B7697a0B75",
+    gravestone  : "0xFBEbC148F214765Abb05E848840ec358E5bA0ecF",
   },
   ropsten : {
     alias     : "ropsten",
@@ -48,7 +48,7 @@ export const ChainNets = {
     weth        : "0xc778417e063141139fce010982780140aa0cd5ab",
     stablecoin  : "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
     treasury    : "0x85048aae2FCc6877cA379e2dfDD61ea208Fa076C",
-    gravestone    : "0x501097cbfAF49f8bB34c6eA1b1073A322dfA8255",
+    gravestone    : "0x8a694e2E107A98a76628c9f266FED16329E56B5F",
   },
   bsc : {
     alias     : "Binance",
@@ -123,4 +123,4 @@ export const ChainNets = {
   },
 }
 
-export const TARGET_NET = ChainNets.ether;
+export const TARGET_NET = ChainNets.rinkeby;

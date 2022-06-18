@@ -4,7 +4,7 @@ import gstnAbi from "./abi/RipEthereum.json";
 import BigNumber from "bignumber.js";
 
 function gstnGetContract(provider) {
-  const contract = dsWeb3GetContract(provider, TARGET_NET.gravestone, gstnAbi.abi);
+  const contract = dsWeb3GetContract(provider, TARGET_NET.gravestone, gstnAbi);
   return contract;
 }
 export async function gstnGetStatistics(provider, account) {
@@ -16,7 +16,7 @@ export async function gstnGetStatistics(provider, account) {
   const isRoundOne = await contract.methods.getIsPhaseOne().call();
   gstnInfo.round = isRoundOne ? 1 : 2;
   gstnInfo.maxMintPerOneTime = await contract.methods.maxMintAmountPerTransaction().call();
-  gstnInfo.maxMintPerWallet = await contract.methods.getMaxMintAmountPerWallet(account).call();
+  gstnInfo.maxMintPerWallet = await contract.methods.getMaxMintAmountPerWallet().call();
   gstnInfo.isWhitelist = await contract.methods.isWhitelistOnly().call();
   gstnInfo.isAllowedToMint = await contract.methods.whitelisted(account).call();
   if (account)
