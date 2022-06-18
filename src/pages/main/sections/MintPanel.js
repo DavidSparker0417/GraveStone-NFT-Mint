@@ -4,7 +4,7 @@ import { Grid, Box, Typography, styled, Button } from "@mui/material";
 import { useSelector } from "react-redux";
 import GSTypography from "../../../components/GSTypography";
 import ImageBox from "../../../components/ImageBox";
-import { getGeneral, UpdateMintCount } from "../../../redux/nft";
+import { getGeneral, getOperate, UpdateMintCount } from "../../../redux/nft";
 import { useWallet } from "../../../context/wallet";
 
 const MintText = styled(Typography)(() => {
@@ -34,33 +34,23 @@ function MintControlButton({children, handleClick, ...rest}) {
 }
 
 function MintController({handleMint}) {
-  const [count, setCount] = useState(0);
   const { maxMintPerOneTime, maxMintPerWallet, balance } = useSelector(getGeneral);
-  const {account} = useWallet();
-  const [disabled, setDisabled] = useState(false);
+  const { count } = useSelector(getOperate);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(UpdateMintCount(count));
-    setDisabled(count === 0)
-  }, [count, dispatch]);
-
-  useEffect(() => {
-    setCount(0);
-  }, [account])
 
   function decreaseCount() {
     const newCount = count - 1;
     if (newCount < 0) return;
-    setCount(newCount);
+    dispatch(UpdateMintCount(newCount));
   }
+  
   function increaseCount() {
     const availableToMint = parseInt(maxMintPerWallet) > parseInt(balance) ? parseInt(maxMintPerWallet) - parseInt(balance) : 0;
     const limit = Math.min(availableToMint, maxMintPerOneTime);
     // console.log(availableToMint, maxMintPerOneTime, availableToMint, maxMintPerWallet, balance);
     const newCount = count + 1;
     if (newCount <= limit)
-      setCount(newCount);
+      dispatch(UpdateMintCount(newCount));
   }
 
   return (
@@ -82,7 +72,7 @@ function MintController({handleMint}) {
             +
           </MintControlButton>
         </Grid>
-        <MintControlButton onClick={handleMint} disabled={disabled}>
+        <MintControlButton onClick={handleMint} disabled={count === 0}>
           MINT NOW
         </MintControlButton>
       </Box>

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import GSTypography from "../../../components/GSTypography";
 import { useWallet } from "../../../context/wallet";
-import { getGeneral, UpdateMintCount } from "../../../redux/nft";
+import { getGeneral, getOperate, UpdateMintCount } from "../../../redux/nft";
 
 const MintText = styled(Typography)(() => {
   return {
@@ -34,31 +34,20 @@ function MintControlButton({ children, handleClick, ...rest }) {
 
 function MintController({handleMint}) {
   const { maxMintPerOneTime, maxMintPerWallet, balance } = useSelector(getGeneral);
+  const {count} = useSelector(getOperate);
   const dispatch = useDispatch();
-  const [count, setCount] = useState(0);
-  const [disabled, setDisabled] = useState(false);
-  const {account} = useWallet();
-
-  useEffect(() => {
-    dispatch(UpdateMintCount(count));
-    setDisabled(count === 0);
-  }, [count, dispatch]);
-
-  useEffect(() => {
-    setCount(0);
-  }, [account])
 
   function decreaseCount() {
     const newCount = count - 1;
     if (newCount < 0) return;
-    setCount(newCount);
+    dispatch(UpdateMintCount(newCount));
   }
   function increaseCount() {
     const availableToMint = parseInt(maxMintPerWallet) > parseInt(balance) ? parseInt(maxMintPerWallet) - parseInt(balance) : 0;
     const limit = Math.min(availableToMint, maxMintPerOneTime);
     const newCount = count + 1;
     if (newCount <= limit)
-      setCount(newCount);
+      dispatch(UpdateMintCount(newCount));
   }
   return (
     <>
@@ -76,7 +65,7 @@ function MintController({handleMint}) {
         </Grid>
       </Grid>
       <Grid item height="40%" container alignItems="center" justifyContent="center">
-        <MintControlButton handleClick={handleMint} disabled={disabled}>MINT NOW</MintControlButton>
+        <MintControlButton handleClick={handleMint} disabled={count===0}>MINT NOW</MintControlButton>
       </Grid>
     </>
   );

@@ -6,7 +6,7 @@ import MintPanel from "./sections/MintPanel";
 import { BrowserView, MobileView, isMobile } from "react-device-detect";
 import MobileMintPanel from "./sections/MobileMintPanel";
 import { gstnMintNft, gstnNftBalance } from "../../contracts/nft";
-import { getGeneral, getOperate, UpdateBalance } from "../../redux/nft";
+import { getGeneral, getOperate, UpdateBalance, UpdateMintCount } from "../../redux/nft";
 import SaleStatus from "./sections/mobile/SaleStatus";
 import SocialBox from "../../components/SocialBox";
 import { useUI } from "../../context/ui";
@@ -63,6 +63,7 @@ export default function Main() {
     gstnNftBalance(wallet.provider, wallet.account).then((balance) => {
       dispatch(UpdateBalance(balance));
     });
+    dispatch(UpdateMintCount(0));
   }, [wallet, wallet.account, dispatch]);
 
   async function handleMint() {
@@ -77,6 +78,7 @@ export default function Main() {
         operateState.count
       );
       setLoading(false);
+      dispatch(UpdateMintCount(0));
     } catch (e) {
       setLoading(false);
       toast.error(dsErrMsgGet(e.message));
