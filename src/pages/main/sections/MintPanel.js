@@ -91,7 +91,7 @@ function MintController({handleMint}) {
 
 export default function MintPanel({ handleMint, ...rest }) {
   const nftState = useSelector(getGeneral);
-  const stageImage = nftState?.isWhitelist ? "wl-sale-live.png" : "public-sale-live.png";
+  const stageImage = nftState?.isWhitelist ? "wl-sale-live.webp" : "public-sale-live.webp";
   return (
     <>
       <Grid item container width="100%" height="29%" justifyContent="center">

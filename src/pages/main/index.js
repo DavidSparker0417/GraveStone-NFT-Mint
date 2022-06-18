@@ -43,15 +43,15 @@ export default function Main() {
   const operateState = useSelector(getOperate);
   let ui = {
     init: {
-      background: `images/${imgDir}/background.png`,
-      buttonImage: `url(/images/${imgDir}/connect-wallet.png)`,
-      buttonHoverImage: `url(/images/${imgDir}/connect-wallet-hover.png)`,
+      background: `images/${imgDir}/background.webp`,
+      buttonImage: `url(/images/${imgDir}/connect-wallet.webp)`,
+      buttonHoverImage: `url(/images/${imgDir}/connect-wallet-hover.webp)`,
       buttonHandler: handleConnectWallet,
     },
     active: {
-      background: `images/${imgDir}/background-active.png`,
-      buttonImage: `url(/images/${imgDir}/mint.png)`,
-      buttonHoverImage: `url(/images/${imgDir}/mint-hover.png)`,
+      background: `images/${imgDir}/background-active.webp`,
+      buttonImage: `url(/images/${imgDir}/mint.webp)`,
+      buttonHoverImage: `url(/images/${imgDir}/mint-hover.webp)`,
       buttonHandler: handleMint,
     },
   };
