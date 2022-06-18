@@ -63,7 +63,7 @@ export default function Main() {
     gstnNftBalance(wallet.provider, wallet.account).then((balance) => {
       dispatch(UpdateBalance(balance));
     });
-  }, [wallet, wallet.account]);
+  }, [wallet, wallet.account, dispatch]);
 
   async function handleMint() {
     if (!operateState.count)

@@ -43,7 +43,7 @@ function MintController({handleMint}) {
   useEffect(() => {
     dispatch(UpdateMintCount(count));
     setDisabled(count === 0)
-  }, [count]);
+  }, [count, dispatch]);
 
   useEffect(() => {
     setCount(0);

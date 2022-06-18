@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useState } from "react";
 import Web3Modal from "web3modal";
-import WalletConnectProvider from "@walletconnect/web3-provider";
+// import WalletConnectProvider from "@walletconnect/web3-provider";
 import { dsWalletAccountFromProvider } from "../ds-lib/ds-web3";
 import {TARGET_NET} from "../config/config";
 import { toast } from "react-toastify";
@@ -8,12 +8,12 @@ import { toast } from "react-toastify";
 export const WalletContext = createContext();
 
 const providerOptions = {
-  walletconnect: {
-    package: WalletConnectProvider,
-    options: {
-      infuraId: "691246788d1149f2a95f82cd3a893f72",
-    },
-  },
+  // walletconnect: {
+  //   package: WalletConnectProvider,
+  //   options: {
+  //     infuraId: "691246788d1149f2a95f82cd3a893f72",
+  //   },
+  // },
 };
 
 const web3Modal = new Web3Modal({

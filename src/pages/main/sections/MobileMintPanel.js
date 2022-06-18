@@ -1,10 +1,8 @@
-import { Grid, Box, Typography, styled, Button } from "@mui/material";
+import { Grid, Typography, styled, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import GSTypography from "../../../components/GSTypography";
-import ImageBox from "../../../components/ImageBox";
 import { useWallet } from "../../../context/wallet";
-import { gstnMintNft } from "../../../contracts/nft";
 import { getGeneral, UpdateMintCount } from "../../../redux/nft";
 
 const MintText = styled(Typography)(() => {
@@ -44,7 +42,7 @@ function MintController({handleMint}) {
   useEffect(() => {
     dispatch(UpdateMintCount(count));
     setDisabled(count === 0);
-  }, [count]);
+  }, [count, dispatch]);
 
   useEffect(() => {
     setCount(0);
@@ -86,7 +84,6 @@ function MintController({handleMint}) {
 
 export default function MobileMintPanel({ handleMint, ...rest }) {
   const nftState = useSelector(getGeneral);
-  const wallet = useWallet();
 
   return (
     <>

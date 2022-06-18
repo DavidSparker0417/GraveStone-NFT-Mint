@@ -1,4 +1,3 @@
-import { Box, styled } from "@mui/material";
 import ImageBox from "./ImageBox";
 
 export default function StoneButton({image, hoverImage, handleClick, ...rest}) {
