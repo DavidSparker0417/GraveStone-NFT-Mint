@@ -1,4 +1,4 @@
-import {useDispatch, useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, Container, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import MuiLink from "@mui/material/Link";
@@ -38,7 +38,7 @@ const imgDir = isMobile ? "mobile" : "desktop";
 export default function Main() {
   const nftState = useSelector(getGeneral);
   const wallet = useWallet();
-  const {setLoading} = useUI();
+  const { setLoading } = useUI();
   const dispatch = useDispatch();
   const operateState = useSelector(getOperate);
   let ui = {
@@ -63,17 +63,23 @@ export default function Main() {
   }
 
   useEffect(() => {
-    if (!wallet?.account)
-      return;
-    gstnNftBalance(wallet.provider, wallet.account).then(balance => {
+    if (!wallet?.account) return;
+    gstnNftBalance(wallet.provider, wallet.account).then((balance) => {
       dispatch(UpdateBalance(balance));
     });
   }, [wallet, wallet.account]);
 
   async function handleMint() {
-    try{
+    if (!operateState.count)
+      return;
+    try {
       setLoading(true, "Minting...");
-      await gstnMintNft(wallet.provider, wallet.account, nftState.mintPrice, operateState.count);
+      await gstnMintNft(
+        wallet.provider,
+        wallet.account,
+        nftState.mintPrice,
+        operateState.count
+      );
       setLoading(false);
     } catch (e) {
       setLoading(false);
@@ -95,18 +101,19 @@ export default function Main() {
             top={0}
           >
             <Grid item xs={4} height="100%">
-              <SocialBox p="16px" 
-                splitter= "-"
+              <SocialBox
+                p="16px"
+                splitter="-"
                 sx={{
                   display: {
                     xs: "flex",
-                    lg: "block"
+                    lg: "block",
                   },
                   flexDirection: {
                     xs: "column",
-                    lg: "none"
+                    lg: "none",
                   },
-                }} 
+                }}
               />
             </Grid>
             <Grid
@@ -131,7 +138,7 @@ export default function Main() {
               flexDirection="column"
               alignContent="center"
             >
-              {wallet.account && <MintPanel handleMint={handleMint}/>}
+              {wallet.account && <MintPanel handleMint={handleMint} />}
             </Grid>
           </Grid>
         </Box>
@@ -148,7 +155,13 @@ export default function Main() {
             left={0}
             top={0}
           >
-            <Grid item height="25%" width="100%" container justifyContent="center">
+            <Grid
+              item
+              height="25%"
+              width="100%"
+              container
+              justifyContent="center"
+            >
               <SaleStatus />
             </Grid>
             <Grid item height="45%" width="100%" container>
@@ -168,9 +181,7 @@ export default function Main() {
               </Grid>
             </Grid>
             <Grid item height="30%" width="100%">
-              {
-                wallet.account && <MobileMintPanel handleMint={handleMint}/>
-              }
+              {wallet.account && <MobileMintPanel handleMint={handleMint} />}
             </Grid>
           </Grid>
         </Box>
