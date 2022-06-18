@@ -123,4 +123,4 @@ export const ChainNets = {
   },
 }
 
-export const TARGET_NET = ChainNets.rinkeby;
+export const TARGET_NET = ChainNets.ether;
