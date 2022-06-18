@@ -51,7 +51,7 @@ function MintController({handleMint}) {
 
   function decreaseCount() {
     const newCount = count - 1;
-    if (newCount <= 0) return;
+    if (newCount < 0) return;
     setCount(newCount);
   }
   function increaseCount() {
