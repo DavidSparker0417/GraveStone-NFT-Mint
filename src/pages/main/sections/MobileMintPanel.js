@@ -34,26 +34,37 @@ function MintControlButton({ children, handleClick, ...rest }) {
   );
 }
 
-function MintController() {
-  const { maxMintPerOneTime } = useSelector(getGeneral);
+function MintController({handleMint}) {
+  const { maxMintPerOneTime, maxMintPerWallet, balance } = useSelector(getGeneral);
   const dispatch = useDispatch();
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
+  const [disabled, setDisabled] = useState(false);
+  const {account} = useWallet();
+
   useEffect(() => {
     dispatch(UpdateMintCount(count));
-  }, [count])
+    setDisabled(count === 0);
+  }, [count]);
+
+  useEffect(() => {
+    setCount(0);
+  }, [account])
+
   function decreaseCount() {
     const newCount = count - 1;
     if (newCount <= 0) return;
     setCount(newCount);
   }
   function increaseCount() {
+    const availableToMint = maxMintPerWallet > balance ? maxMintPerWallet - balance : 0;
+    const limit = Math.min(availableToMint, maxMintPerOneTime);
     const newCount = count + 1;
-    if (newCount <= maxMintPerOneTime)
+    if (newCount <= limit)
       setCount(newCount);
   }
   return (
     <>
-      <Box textAlign="center">
+      <Grid item height="60%" textAlign="center" container alignItems="center">
         <Grid
           container
           justifyContent="center"
@@ -65,7 +76,10 @@ function MintController() {
           <MintText component="span">{count}</MintText>
           <MintControlButton onClick={increaseCount}>+</MintControlButton>
         </Grid>
-      </Box>
+      </Grid>
+      <Grid item height="40%" container alignItems="center" justifyContent="center">
+        <MintControlButton handleClick={handleMint} disabled={disabled}>MINT NOW</MintControlButton>
+      </Grid>
     </>
   );
 }
@@ -76,11 +90,8 @@ export default function MobileMintPanel({ handleMint, ...rest }) {
 
   return (
     <>
-      <Grid height="35%" container alignItems="center" justifyContent="center">
-        <MintController />
-      </Grid>
-      <Grid height="25%" container justifyContent="center" alignContent="end">
-        <MintControlButton handleClick={handleMint}>MINT NOW</MintControlButton>
+      <Grid height="60%" container alignItems="center" justifyContent="center">
+        <MintController handleMint = {handleMint}/>
       </Grid>
       <Grid height="40%" container alignItems="center" justifyContent="center">
         <GSTypography 

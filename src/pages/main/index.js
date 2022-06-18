@@ -1,4 +1,4 @@
-import {useSelector} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import { Box, Button, Container, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import MuiLink from "@mui/material/Link";
@@ -9,13 +9,14 @@ import MintPanel from "./sections/MintPanel";
 import { BrowserView, MobileView, isMobile } from "react-device-detect";
 import ImageBox from "../../components/ImageBox";
 import MobileMintPanel from "./sections/MobileMintPanel";
-import { gstnMintNft } from "../../contracts/nft";
-import { getGeneral, getOperate } from "../../redux/nft";
+import { gstnMintNft, gstnNftBalance } from "../../contracts/nft";
+import { getGeneral, getOperate, UpdateBalance } from "../../redux/nft";
 import SaleStatus from "./sections/mobile/SaleStatus";
 import SocialBox from "../../components/SocialBox";
 import { useUI } from "../../context/ui";
 import { toast } from "react-toastify";
 import { dsErrMsgGet } from "../../ds-lib/ds-web3";
+import { useEffect } from "react";
 
 function BackGround({ image, ...rest }) {
   return (
@@ -38,6 +39,7 @@ export default function Main() {
   const nftState = useSelector(getGeneral);
   const wallet = useWallet();
   const {setLoading} = useUI();
+  const dispatch = useDispatch();
   const operateState = useSelector(getOperate);
   let ui = {
     init: {
@@ -59,6 +61,14 @@ export default function Main() {
     console.log("handleConnectWallet");
     wallet.connect();
   }
+
+  useEffect(() => {
+    if (!wallet?.account)
+      return;
+    gstnNftBalance(wallet.provider, wallet.account).then(balance => {
+      dispatch(UpdateBalance(balance));
+    });
+  }, [wallet, wallet.account]);
 
   async function handleMint() {
     try{

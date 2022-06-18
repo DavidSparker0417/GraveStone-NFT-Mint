@@ -9,6 +9,7 @@ const initialState = {
     maxMintPerWallet: 0,
     isWhitelist: false,
     isAllowedToMint: false,
+    balance: 0,
     phase1 : {
       cost: "0",
       maxPerWallet: 0,
@@ -23,7 +24,7 @@ const initialState = {
     },
   },
   operate : {
-    count: 1,
+    count: 0,
   }
 };
 
@@ -36,13 +37,17 @@ const nftSlice = createSlice({
     },
 
     UpdateMintCount (state, action) {
-      console.log("[REDUX] Updating mint count. ", action.payload);
       state.operate.count = action.payload;
+    },
+
+    UpdateBalance(state, action) {
+      console.log("[REDUX] Updating balance. ", action.payload);
+      state.general.balance = action.payload;
     }
   }
 });
 
-export const {RefreshGeneral, UpdateMintCount} = nftSlice.actions;
+export const {RefreshGeneral, UpdateMintCount, UpdateBalance} = nftSlice.actions;
 export const getGeneral = (state) => state.nft.general;
 export const getOperate = (state) => state.nft.operate;
 export default nftSlice.reducer;

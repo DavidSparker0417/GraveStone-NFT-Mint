@@ -19,6 +19,8 @@ export async function gstnGetStatistics(provider, account) {
   gstnInfo.maxMintPerWallet = await contract.methods.getMaxMintAmountPerWallet(account).call();
   gstnInfo.isWhitelist = await contract.methods.isWhitelistOnly().call();
   gstnInfo.isAllowedToMint = await contract.methods.whitelisted(account).call();
+  if (account)
+    gstnInfo.balance = await contract.methods.balanceOf(account).call();
   let phase1 = {};
   phase1.cost = await contract.methods.phaseOneCost().call();
   phase1.maxPerTrx = await contract.methods.maxMintAmountPerWalletNonGotRektPhaseOne().call();
@@ -31,7 +33,7 @@ export async function gstnGetStatistics(provider, account) {
   phase2.active = !isRoundOne;
 
   gstnInfo.phase2 = phase2;  
-  // console.log("[GSTN] get statistics :: ", provider, gstnInfo);
+  // console.log("[GSTN] get statistics :: ", gstnInfo);
   return gstnInfo;
 }
 
@@ -49,4 +51,10 @@ export async function gstnMintNft(provider, account, price, amount) {
   const payment = bnPrice.multipliedBy(amount);
   const transaction = contract.methods.mint(amount);
   await dsWeb3SendTransaction(provider, null, account, transaction, payment);
+}
+
+export async function gstnNftBalance(provider, account) {
+  const contract = gstnGetContract(provider);
+  const balance = await contract.methods.balanceOf(account).call();
+  return balance;
 }
