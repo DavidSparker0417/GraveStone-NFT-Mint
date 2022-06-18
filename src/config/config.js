@@ -15,7 +15,7 @@ export const ChainNets = {
     weth        : "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     stablecoin  : "0xdAC17F958D2ee523a2206206994597C13D831ec7",
     treasury    : "0x7580C35f3FC73BE051f39ECdCD7f94fF53725960",
-    gravestone  : "0x2d0090D66171E0a6d4CCf547a67587c94431A1A7",
+    gravestone  : "0x5Fc2D8f254E8efeEdf72688fD7A9c0B7697a0B75",
   },
   ropsten : {
     alias     : "ropsten",

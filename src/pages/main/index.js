@@ -1,13 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Button, Container, Grid } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import MuiLink from "@mui/material/Link";
-import GSTypography from "../../components/GSTypography";
+import { Box, Grid } from "@mui/material";
 import StoneButton from "../../components/StonButton";
 import { useWallet } from "../../context/wallet";
 import MintPanel from "./sections/MintPanel";
 import { BrowserView, MobileView, isMobile } from "react-device-detect";
-import ImageBox from "../../components/ImageBox";
 import MobileMintPanel from "./sections/MobileMintPanel";
 import { gstnMintNft, gstnNftBalance } from "../../contracts/nft";
 import { getGeneral, getOperate, UpdateBalance } from "../../redux/nft";
